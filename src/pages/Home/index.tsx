@@ -1,37 +1,33 @@
-import { useEffect, useState } from "react";
-import { api } from "../../services/api";
-import { StyledUl } from "./styles";
+import { MainContainer, StyledUl } from "./styles";
+import { useEffect } from "react";
+import { Profile } from "../../components/Profile";
+import { useContext } from "react";
+import { UserContext } from "../../providers/userContext/userContext";
+import { useNavigate } from "react-router-dom";
 
-export interface Contact {
-    id: string;
-    nomeCompleto: string;
-    email: string;
-    telefone: string;
-    dataRegistro: string;
-}
+
 
 export const Home = () => {
-    const [contacts, setContacts] = useState<Contact[]>([]);
+    const navigate = useNavigate();
+
+    const { userloged } = useContext(UserContext);
+    const token = localStorage.getItem("token");
 
     useEffect(() => {
-        (async () => {
-            const response = await api.get<Contact[]>("/contacts");
-            setContacts(response.data);
-        })();
-    }, []);
+        if (!token) {
+          navigate("/login");
+          alert("Você deve estar logado para acessar essa página !!");
+        } else {
+          userloged();
+        }
+      }, []);
 
     return (
-        <>
-            <p>Home</p>
+        <MainContainer>
+            <Profile />
             <StyledUl>
-                {contacts.map((cont) => (
-                    <li key={cont.id}>
-                        <p>Nome Completo: {cont.nomeCompleto}</p>
-                        <p>Email: {cont.email}</p>
-                        <p>telefone: {cont.telefone}</p>
-                    </li>
-                ))}
+                {/* map aqui */}
             </StyledUl>
-        </>
+        </MainContainer>
     );
 };

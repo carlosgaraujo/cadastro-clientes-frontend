@@ -1,4 +1,4 @@
-import { AuthProvider } from "./providers/AuthProvider";
+import { UserProvider } from "./providers/userContext/userContext";
 import { AppRouter } from "./routes";
 import GlobalStyles from "./styles/GlobalStyles";
 
@@ -6,9 +6,9 @@ function App() {
     return (
         <>
             <GlobalStyles />
-            <AuthProvider>
+            <UserProvider>
                 <AppRouter />
-            </AuthProvider>
+            </UserProvider>
         </>
     );
 }
